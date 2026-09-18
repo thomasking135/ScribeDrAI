@@ -2,7 +2,11 @@
 
 ScribeDr AI is a machine-learning research prototype developed to investigate the automatic classification of clinical documentation text.
 
+![ScribeDr AI Clinical Text Classifier](screenshots/classifier.PNG)
+
 The project compares three machine-learning approaches for classifying segments of medical transcription text into predefined clinical documentation categories.
+
+![ScribeDr AI Model Evaluation Dashboard](screenshots/evaluation.PNG)
 
 ## Research Question
 
