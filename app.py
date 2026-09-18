@@ -38,6 +38,13 @@ CLINICALBERT_DIR = os.path.join(
     "clinicalbert"
 )
 
+# Hugging Face repository containing the fine-tuned model.
+# This is used when the local ClinicalBERT directory is not
+# available, such as during cloud deployment.
+CLINICALBERT_HF_REPO = (
+    "thomasking135/ScribeDrAI-ClinicalBERT"
+)
+
 
 # =========================================================
 # GLOBAL MODEL OBJECTS
@@ -394,22 +401,56 @@ def load_models():
 
     # -----------------------------------------------------
     # Fine-tuned ClinicalBERT
+    #
+    # LOCAL DEVELOPMENT:
+    # Load from models/clinicalbert when available.
+    #
+    # CLOUD DEPLOYMENT:
+    # If the local directory does not exist, load the
+    # fine-tuned model from Hugging Face.
     # -----------------------------------------------------
 
-    if os.path.exists(
+    print()
+
+    if os.path.isdir(
         CLINICALBERT_DIR
     ):
 
-        print()
+        clinicalbert_source = (
+            CLINICALBERT_DIR
+        )
 
         print(
-            "Loading fine-tuned ClinicalBERT..."
+            "Loading fine-tuned ClinicalBERT "
+            "from local directory..."
+        )
+
+    else:
+
+        clinicalbert_source = (
+            CLINICALBERT_HF_REPO
+        )
+
+        print(
+            "Local ClinicalBERT directory "
+            "was not found."
+        )
+
+        print(
+            "Loading fine-tuned ClinicalBERT "
+            "from Hugging Face:"
+        )
+
+        print(
+            CLINICALBERT_HF_REPO
         )
 
 
+    try:
+
         CLINICALBERT_TOKENIZER = (
             AutoTokenizer.from_pretrained(
-                CLINICALBERT_DIR
+                clinicalbert_source
             )
         )
 
@@ -417,7 +458,7 @@ def load_models():
         CLINICALBERT_MODEL = (
             AutoModelForSequenceClassification
             .from_pretrained(
-                CLINICALBERT_DIR
+                clinicalbert_source
             )
         )
 
@@ -439,11 +480,30 @@ def load_models():
             "ClinicalBERT loaded successfully."
         )
 
-    else:
+        print(
+            "ClinicalBERT source:",
+            clinicalbert_source
+        )
+
+
+    except Exception as error:
+
+        CLINICALBERT_MODEL = None
+        CLINICALBERT_TOKENIZER = None
 
         print(
-            "WARNING: Fine-tuned ClinicalBERT "
-            "directory was not found."
+            "WARNING: ClinicalBERT could not "
+            "be loaded."
+        )
+
+        print(
+            "ClinicalBERT error:",
+            str(error)
+        )
+
+        print(
+            "The application will continue "
+            "with the available classical models."
         )
 
 
@@ -887,6 +947,16 @@ def health():
             bool(
                 ERROR_ANALYSIS
             ),
+
+        "clinicalbert_loaded":
+            (
+                CLINICALBERT_MODEL is not None
+                and
+                CLINICALBERT_TOKENIZER is not None
+            ),
+
+        "clinicalbert_huggingface_repo":
+            CLINICALBERT_HF_REPO,
 
         "device":
             str(
