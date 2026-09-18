@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        ScribeDr AI - Model Evaluation
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="site-header">
+
+    <div class="brand">
+
+        <div class="logo">
+            S+
+        </div>
+
+        <div>
+            <h1>ScribeDr AI</h1>
+
+            <p>
+                Machine Learning Evaluation
+            </p>
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <a href="/">
+            Classifier
+        </a>
+
+        <a href="/evaluation">
+            Model Evaluation
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="evaluation-container">
+
+
+    <section class="evaluation-intro">
+
+        <p class="eyebrow">
+            RESEARCH RESULTS
+        </p>
+
+        <h1>
+            Model Evaluation
+        </h1>
+
+        <p>
+            Performance on unseen test data using a
+            source-grouped train/test split. Precision,
+            recall and F1-score are reported using
+            macro averaging so that each clinical
+            documentation category contributes equally.
+        </p>
+
+    </section>
+
+    <section class="experiment-summary">
+
+    <div class="summary-card">
+
+        <span class="summary-number">
+            4,999
+        </span>
+
+        <span class="summary-label">
+            Original Dataset Records
+        </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <span class="summary-number">
+            1,950
+        </span>
+
+        <span class="summary-label">
+            Labelled Sections
+        </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <span class="summary-number">
+            5
+        </span>
+
+        <span class="summary-label">
+            Categories
+        </span>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <span class="summary-number">
+            3
+        </span>
+
+        <span class="summary-label">
+            ML Models
+        </span>
+
+    </div>
+
+</section>
+
+    <!-- ================================================= -->
+    <!-- OVERALL MODEL COMPARISON -->
+    <!-- ================================================= -->
+
+    <section class="evaluation-section">
+
+        <h2>
+            Overall Model Comparison
+        </h2>
+
+        <p>
+            Macro-averaged performance across the five
+            documentation categories.
+        </p>
+
+
+        {% if metrics %}
+
+        <div class="table-wrapper">
+
+            <table class="evaluation-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Model</th>
+
+                        <th>Precision</th>
+
+                        <th>Recall</th>
+
+                        <th>F1-score</th>
+
+                        <th>Accuracy</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for model, values in metrics.items() %}
+
+                    <tr>
+
+                        <td>
+                            {{ model }}
+                        </td>
+
+                        <td>
+                            {{ "%.3f"|format(values.precision) }}
+                        </td>
+
+                        <td>
+                            {{ "%.3f"|format(values.recall) }}
+                        </td>
+
+                        <td>
+                            {{ "%.3f"|format(values.f1) }}
+                        </td>
+
+                        <td>
+
+                            {% if values.accuracy is defined %}
+
+                                {{ "%.3f"|format(values.accuracy) }}
+
+                            {% else %}
+
+                                —
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="chart-section">
+
+    <h3>
+        Model Performance Comparison
+    </h3>
+
+    <p>
+        Comparison of macro-averaged precision,
+        recall and F1-score across the three
+        classification approaches.
+    </p>
+
+    <div class="chart-container">
+
+        <canvas id="modelComparisonChart"></canvas>
+
+    </div>
+
+</div>
+
+
+        {% else %}
+
+        <p>
+            Evaluation results are not available yet.
+        </p>
+
+        {% endif %}
+
+    </section>
+
+    <section class="evaluation-section">
+
+    <h2>
+        Dataset Class Distribution
+    </h2>
+
+    <p>
+        Number of labelled clinical sections available
+        after preprocessing and duplicate removal.
+        The distribution demonstrates that the dataset
+        is imbalanced across the five documentation
+        categories.
+    </p>
+
+
+    <div class="table-wrapper">
+
+        <table class="evaluation-table">
+
+            <thead>
+
+                <tr>
+                    <th>Documentation Category</th>
+                    <th>Sections</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+                    <td>Assessment</td>
+                    <td>577</td>
+                </tr>
+
+                <tr>
+                    <td>History of Present Illness</td>
+                    <td>463</td>
+                </tr>
+
+                <tr>
+                    <td>Medications</td>
+                    <td>409</td>
+                </tr>
+
+                <tr>
+                    <td>Plan</td>
+                    <td>354</td>
+                </tr>
+
+                <tr>
+                    <td>Chief Complaint</td>
+                    <td>147</td>
+                </tr>
+
+                <tr>
+                    <td>Total</td>
+                    <td>1,950</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+    <!-- ================================================= -->
+    <!-- PER CATEGORY PERFORMANCE -->
+    <!-- ================================================= -->
+
+    <section class="evaluation-section">
+
+        <h2>
+            Performance by Documentation Category
+        </h2>
+
+        <p>
+            These results show how each model performs
+            on individual clinical documentation
+            categories.
+        </p>
+
+
+        {% set categories = {
+            "chief_complaint": "Chief Complaint",
+            "history_present_illness":
+                "History of Present Illness",
+            "medications": "Medications",
+            "assessment": "Assessment",
+            "plan": "Plan"
+        } %}
+
+
+        {% for model, report in reports.items() %}
+
+        <div class="model-report">
+
+            <h3>
+                {{ model }}
+            </h3>
+
+
+            <div class="table-wrapper">
+
+                <table class="evaluation-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Documentation Category
+                            </th>
+
+                            <th>
+                                Precision
+                            </th>
+
+                            <th>
+                                Recall
+                            </th>
+
+                            <th>
+                                F1-score
+                            </th>
+
+                            <th>
+                                Support
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for key, display_name
+                           in categories.items() %}
+
+
+                            {% if key in report %}
+
+                            <tr>
+
+                                <td>
+                                    {{ display_name }}
+                                </td>
+
+                                <td>
+
+                                    {{
+                                        "%.3f"|format(
+                                            report[key][
+                                                "precision"
+                                            ]
+                                        )
+                                    }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{
+                                        "%.3f"|format(
+                                            report[key][
+                                                "recall"
+                                            ]
+                                        )
+                                    }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{
+                                        "%.3f"|format(
+                                            report[key][
+                                                "f1-score"
+                                            ]
+                                        )
+                                    }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{
+                                        report[key][
+                                            "support"
+                                        ]|int
+                                    }}
+
+                                </td>
+
+                            </tr>
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+
+    </section>
+
+<!-- ================================================= -->
+<!-- CONFUSION MATRICES -->
+<!-- ================================================= -->
+
+<section class="evaluation-section">
+
+    <h2>
+        Model Confusion Matrices
+    </h2>
+
+    <p>
+        Each matrix shows how the models classified the
+        same held-out test examples. Rows represent the
+        true documentation category and columns represent
+        the category predicted by the model.
+    </p>
+
+    <p>
+        Values on the diagonal represent correct
+        classifications. Off-diagonal values represent
+        classification errors.
+    </p>
+
+
+    {% if confusion_matrices %}
+
+    <div class="confusion-grid">
+
+        {% for model_name, data
+           in confusion_matrices.items() %}
+
+        <div class="confusion-card">
+
+            <h3>
+                {{ model_name }}
+            </h3>
+
+            <div class="matrix-axis-title">
+                Predicted Category →
+            </div>
+
+
+            <div class="matrix-wrapper">
+
+                <table class="confusion-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th class="matrix-corner">
+                                True ↓
+                            </th>
+
+                            {% for label in data.labels %}
+
+                            <th>
+
+                                {% if label == "assessment" %}
+                                    Assessment
+
+                                {% elif label == "chief_complaint" %}
+                                    Chief<br>Complaint
+
+                                {% elif label == "history_present_illness" %}
+                                    History<br>Present<br>Illness
+
+                                {% elif label == "medications" %}
+                                    Medications
+
+                                {% elif label == "plan" %}
+                                    Plan
+
+                                {% else %}
+                                    {{ label }}
+                                {% endif %}
+
+                            </th>
+
+                            {% endfor %}
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for row in data.matrix %}
+
+                        {% set row_index = loop.index0 %}
+
+                        <tr>
+
+                            <th class="row-label">
+
+                                {% set label =
+                                    data.labels[row_index]
+                                %}
+
+                                {% if label == "assessment" %}
+                                    Assessment
+
+                                {% elif label == "chief_complaint" %}
+                                    Chief Complaint
+
+                                {% elif label == "history_present_illness" %}
+                                    History of Present Illness
+
+                                {% elif label == "medications" %}
+                                    Medications
+
+                                {% elif label == "plan" %}
+                                    Plan
+
+                                {% else %}
+                                    {{ label }}
+                                {% endif %}
+
+                            </th>
+
+
+                            {% for value in row %}
+
+                            <td
+                                class="matrix-cell"
+                                data-value="{{ value }}"
+                            >
+                                {{ value }}
+                            </td>
+
+                            {% endfor %}
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="matrix-summary">
+
+                <div>
+
+                    <span class="matrix-stat">
+                        {{ data.correct_predictions }}
+                    </span>
+
+                    <span>
+                        Correct
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span class="matrix-stat">
+                        {{ data.incorrect_predictions }}
+                    </span>
+
+                    <span>
+                        Incorrect
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span class="matrix-stat">
+                        {{ data.total_predictions }}
+                    </span>
+
+                    <span>
+                        Test Examples
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <span class="matrix-stat">
+                        {{ "%.3f"|format(data.accuracy) }}
+                    </span>
+
+                    <span>
+                        Accuracy
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="error-analysis">
+
+    <h3>
+        Error Analysis
+    </h3>
+
+    <p>
+        The tables below identify the five most
+        frequent misclassifications produced by each
+        model on the held-out test set.
+    </p>
+
+
+    <div class="error-grid">
+
+        {% for model_name, data
+           in confusion_matrices.items() %}
+
+        <div class="error-card">
+
+            <h4>
+                {{ model_name }}
+            </h4>
+
+
+            <table class="error-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            True Category
+                        </th>
+
+                        <th>
+                            Predicted As
+                        </th>
+
+                        <th>
+                            Count
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for error
+                       in data.top_errors %}
+
+                    <tr>
+
+                        <td>
+                            {{
+                                error.true_label
+                                |replace("_", " ")
+                                |title
+                            }}
+                        </td>
+
+                        <td>
+                            {{
+                                error.predicted_label
+                                |replace("_", " ")
+                                |title
+                            }}
+                        </td>
+
+                        <td>
+                            {{ error.count }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+    {% else %}
+
+    <p>
+        Confusion matrix data is not available.
+        Run build_evaluation.py first.
+    </p>
+
+    {% endif %}
+
+</section>
+
+{% if error_analysis %}
+
+<section class="evaluation-section">
+
+    <h2>
+        Error Analysis Summary
+    </h2>
+
+    <p>
+        Analysis of classification errors across the
+        permanent held-out test set. The hardest category
+        for each model is defined as the category with the
+        lowest recall.
+    </p>
+
+
+    <div class="analysis-summary-grid">
+
+        {% for model_name, analysis
+           in error_analysis.models.items() %}
+
+        <div class="analysis-summary-card">
+
+            <h3>
+                {{ model_name }}
+            </h3>
+
+
+            <div class="analysis-stat">
+
+                <span class="analysis-stat-label">
+                    Total Errors
+                </span>
+
+                <span class="analysis-stat-value">
+                    {{ analysis.error_count }}
+                </span>
+
+            </div>
+
+
+            <div class="analysis-stat">
+
+                <span class="analysis-stat-label">
+                    Accuracy
+                </span>
+
+                <span class="analysis-stat-value">
+                    {{
+                        "%.3f"|format(
+                            analysis.accuracy
+                        )
+                    }}
+                </span>
+
+            </div>
+
+
+            <div class="analysis-detail">
+
+                <span class="analysis-detail-label">
+                    Hardest Category
+                </span>
+
+                <span class="analysis-detail-value">
+                    {{
+                        analysis
+                        .hardest_category
+                        .display_name
+                    }}
+                </span>
+
+                <small>
+                    Recall:
+                    {{
+                        "%.3f"|format(
+                            analysis
+                            .hardest_category
+                            .recall
+                        )
+                    }}
+                </small>
+
+            </div>
+
+
+            {% if analysis.largest_confusion %}
+
+            <div class="analysis-detail">
+
+                <span class="analysis-detail-label">
+                    Largest Confusion
+                </span>
+
+                <span class="analysis-detail-value">
+
+                    {{
+                        analysis
+                        .largest_confusion
+                        .true_display_name
+                    }}
+
+                    →
+
+                    {{
+                        analysis
+                        .largest_confusion
+                        .predicted_display_name
+                    }}
+
+                </span>
+
+                <small>
+                    {{
+                        analysis
+                        .largest_confusion
+                        .count
+                    }}
+                    examples
+                </small>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section class="evaluation-section">
+
+    <h2>
+        Model Agreement Analysis
+    </h2>
+
+    <p>
+        This analysis compares the predictions made by all
+        three classifiers on the same held-out test examples.
+        It shows where the models succeed together and where
+        their predictions differ.
+    </p>
+
+
+    <div class="agreement-grid">
+
+        <div class="agreement-card">
+
+            <span class="agreement-number">
+                {{
+                    error_analysis
+                    .agreement
+                    .all_three_correct
+                }}
+            </span>
+
+            <span class="agreement-label">
+                All Three Correct
+            </span>
+
+        </div>
+
+
+        <div class="agreement-card">
+
+            <span class="agreement-number">
+                {{
+                    error_analysis
+                    .agreement
+                    .all_three_incorrect
+                }}
+            </span>
+
+            <span class="agreement-label">
+                All Three Incorrect
+            </span>
+
+        </div>
+
+
+        <div class="agreement-card">
+
+            <span class="agreement-number">
+                {{
+                    error_analysis
+                    .agreement
+                    .exactly_two_correct
+                }}
+            </span>
+
+            <span class="agreement-label">
+                Exactly Two Correct
+            </span>
+
+        </div>
+
+
+        <div class="agreement-card">
+
+            <span class="agreement-number">
+                {{
+                    error_analysis
+                    .agreement
+                    .exactly_one_correct
+                }}
+            </span>
+
+            <span class="agreement-label">
+                Exactly One Correct
+            </span>
+
+        </div>
+
+
+        <div class="agreement-card highlight-card">
+
+            <span class="agreement-number">
+                {{
+                    error_analysis
+                    .agreement
+                    .clinicalbert_only_correct
+                }}
+            </span>
+
+            <span class="agreement-label">
+                ClinicalBERT Only Correct
+            </span>
+
+        </div>
+
+
+        <div class="agreement-card">
+
+            <span class="agreement-number">
+                {{
+                    error_analysis
+                    .agreement
+                    .at_least_one_correct
+                }}
+            </span>
+
+            <span class="agreement-label">
+                At Least One Model Correct
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="agreement-detail">
+
+        <h3>
+            Pairwise Success
+        </h3>
+
+        <div class="table-wrapper">
+
+            <table class="evaluation-table">
+
+                <thead>
+
+                    <tr>
+                        <th>
+                            Models Correct
+                        </th>
+
+                        <th>
+                            Other Model Incorrect
+                        </th>
+
+                        <th>
+                            Examples
+                        </th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <td>
+                            Logistic Regression + SVM
+                        </td>
+
+                        <td>
+                            ClinicalBERT
+                        </td>
+
+                        <td>
+                            {{
+                                error_analysis
+                                .agreement
+                                .logistic_and_svm_only_correct
+                            }}
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            Logistic Regression +
+                            ClinicalBERT
+                        </td>
+
+                        <td>
+                            SVM
+                        </td>
+
+                        <td>
+                            {{
+                                error_analysis
+                                .agreement
+                                .logistic_and_clinicalbert_only_correct
+                            }}
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <td>
+                            SVM + ClinicalBERT
+                        </td>
+
+                        <td>
+                            Logistic Regression
+                        </td>
+
+                        <td>
+                            {{
+                                error_analysis
+                                .agreement
+                                .svm_and_clinicalbert_only_correct
+                            }}
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- MISCLASSIFIED EXAMPLE EXPLORER -->
+<!-- ================================================= -->
+
+{% if error_analysis and error_analysis.interesting_examples %}
+
+<section class="evaluation-section">
+
+    <h2>
+        Misclassified Example Explorer
+    </h2>
+
+    <p>
+        Explore examples from the permanent held-out test
+        set where the three models produced different
+        outcomes. These examples help illustrate the kinds
+        of clinical text associated with classification
+        disagreements and errors.
+    </p>
+
+    <div class="example-explorer">
+
+        <div class="example-controls">
+
+            <div class="example-control-group">
+
+                <label for="exampleGroup">
+                    Example Group
+                </label>
+
+                <select id="exampleGroup">
+
+                    <option value="all_three_incorrect">
+                        All Three Models Incorrect
+                    </option>
+
+                    <option value="clinicalbert_only_correct">
+                        ClinicalBERT Only Correct
+                    </option>
+
+                    <option value="logistic_only_correct">
+                        Logistic Regression Only Correct
+                    </option>
+
+                    <option value="svm_only_correct">
+                        SVM Only Correct
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div
+            id="exampleViewer"
+            class="example-viewer"
+        >
+
+            <div class="example-header">
+
+                <div>
+
+                    <span class="example-eyebrow">
+                        HELD-OUT TEST EXAMPLE
+                    </span>
+
+                    <h3 id="exampleTitle">
+                        Misclassified Example
+                    </h3>
+
+                </div>
+
+                <div
+                    id="exampleCounter"
+                    class="example-counter"
+                >
+                    —
+                </div>
+
+            </div>
+
+            <div class="prediction-comparison">
+
+                <div class="prediction-card true-category">
+
+                    <span class="prediction-label">
+                        True Category
+                    </span>
+
+                    <span
+                        id="trueCategory"
+                        class="prediction-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+                <div class="prediction-card">
+
+                    <span class="prediction-label">
+                        Logistic Regression
+                    </span>
+
+                    <span
+                        id="logisticPrediction"
+                        class="prediction-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+                <div class="prediction-card">
+
+                    <span class="prediction-label">
+                        SVM
+                    </span>
+
+                    <span
+                        id="svmPrediction"
+                        class="prediction-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+                <div class="prediction-card">
+
+                    <span class="prediction-label">
+                        ClinicalBERT
+                    </span>
+
+                    <span
+                        id="clinicalbertPrediction"
+                        class="prediction-value"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="clinical-example">
+
+                <div class="clinical-example-heading">
+
+                    <span>
+                        Clinical Text
+                    </span>
+
+                    <span
+                        id="sourceRecord"
+                        class="source-record"
+                    >
+                    </span>
+
+                </div>
+
+                <div
+                    id="clinicalText"
+                    class="clinical-text"
+                >
+                    Select an example group to inspect
+                    held-out clinical text.
+                </div>
+
+            </div>
+
+            <div class="example-navigation">
+
+                <button
+                    id="previousExample"
+                    type="button"
+                    class="example-nav-button"
+                >
+                    ← Previous
+                </button>
+
+                <span
+                    id="navigationCounter"
+                    class="navigation-counter"
+                >
+                    —
+                </span>
+
+                <button
+                    id="nextExample"
+                    type="button"
+                    class="example-nav-button"
+                >
+                    Next →
+                </button>
+
+            </div>
+
+        </div>
+
+        <div
+            id="noExamplesMessage"
+            class="no-examples-message"
+            hidden
+        >
+            No examples are available for this group.
+        </div>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+{% endif %}
+
+    <!-- ================================================= -->
+    <!-- INTERPRETATION -->
+    <!-- ================================================= -->
+
+    <section class="evaluation-section">
+
+        <h2>
+            Understanding the Metrics
+        </h2>
+
+
+        <div class="metric-grid">
+
+
+            <div class="metric-card">
+
+                <h3>
+                    Precision
+                </h3>
+
+                <p>
+                    Of the sections assigned to a
+                    category by the model, precision
+                    measures the proportion that were
+                    correctly classified.
+                </p>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <h3>
+                    Recall
+                </h3>
+
+                <p>
+                    Of the sections that genuinely
+                    belong to a category, recall
+                    measures the proportion successfully
+                    identified by the model.
+                </p>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <h3>
+                    F1-score
+                </h3>
+
+                <p>
+                    F1-score combines precision and
+                    recall into a single measure,
+                    helping evaluate the balance
+                    between the two.
+                </p>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <h3>
+                    Support
+                </h3>
+
+                <p>
+                    Support is the number of test
+                    examples belonging to each
+                    documentation category.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- EXPERIMENTAL DESIGN -->
+    <!-- ================================================= -->
+
+    <section class="evaluation-section methodology">
+
+        <h2>
+            Experimental Design
+        </h2>
+
+        <p>
+            Clinical sections were derived from the
+            MTSamples medical transcription dataset and
+            classified into five predefined
+            documentation categories.
+        </p>
+
+        <p>
+            Source-level grouping was used during the
+            train/test split so that sections from the
+            same original transcription did not appear
+            in both sets. This reduces the risk of
+            information leakage between training and
+            evaluation data.
+        </p>
+
+        <p>
+            The experiment compares TF-IDF with
+            Logistic Regression, TF-IDF with a linear
+            Support Vector Machine, and a fine-tuned
+            Bio_ClinicalBERT transformer model.
+        </p>
+
+    </section>
+
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const modelNames = [
+        {% for model in metrics.keys() %}
+            {{ model|tojson }},
+        {% endfor %}
+    ];
+
+
+    const precisionValues = [
+        {% for model, values in metrics.items() %}
+            {{ values.precision }},
+        {% endfor %}
+    ];
+
+
+    const recallValues = [
+        {% for model, values in metrics.items() %}
+            {{ values.recall }},
+        {% endfor %}
+    ];
+
+
+    const f1Values = [
+        {% for model, values in metrics.items() %}
+            {{ values.f1 }},
+        {% endfor %}
+    ];
+
+
+    const chartCanvas =
+        document.getElementById(
+            "modelComparisonChart"
+        );
+
+
+    if (chartCanvas) {
+
+        new Chart(
+            chartCanvas,
+            {
+                type: "bar",
+
+                data: {
+
+                    labels: modelNames,
+
+                    datasets: [
+
+                        {
+                            label: "Precision",
+                            data: precisionValues
+                        },
+
+                        {
+                            label: "Recall",
+                            data: recallValues
+                        },
+
+                        {
+                            label: "F1-score",
+                            data: f1Values
+                        }
+
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            max: 1,
+
+                            title: {
+                                display: true,
+                                text: "Score"
+                            }
+
+                        }
+
+                    },
+
+                    plugins: {
+
+                        legend: {
+                            position: "bottom"
+                        },
+
+                        tooltip: {
+
+                            callbacks: {
+
+                                label: function(context) {
+
+                                    return (
+                                        context.dataset.label
+                                        + ": "
+                                        + context.raw.toFixed(3)
+                                    );
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+</script>
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const cards =
+            document.querySelectorAll(
+                ".confusion-card"
+            );
+
+
+        cards.forEach(function (card) {
+
+            const cells =
+                card.querySelectorAll(
+                    ".matrix-cell"
+                );
+
+
+            let maximum = 0;
+
+
+            cells.forEach(
+                function (cell) {
+
+                    const value =
+                        Number(
+                            cell.dataset.value
+                        );
+
+                    if (value > maximum) {
+                        maximum = value;
+                    }
+
+                }
+            );
+
+
+            cells.forEach(
+                function (cell) {
+
+                    const value =
+                        Number(
+                            cell.dataset.value
+                        );
+
+
+                    let intensity = 0;
+
+                    if (maximum > 0) {
+
+                        intensity =
+                            value / maximum;
+
+                    }
+
+
+                    const lightness =
+                        97 - (
+                            intensity * 55
+                        );
+
+
+                    cell.style.backgroundColor =
+                        "hsl(190, 70%, "
+                        + lightness
+                        + "%)";
+
+
+                    if (intensity > 0.55) {
+
+                        cell.style.color =
+                            "#ffffff";
+
+                    } else {
+
+                        cell.style.color =
+                            "#17324d";
+
+                    }
+
+                }
+            );
+
+        });
+
+    }
+);
+
+</script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const exampleData =
+            {{ (
+                error_analysis.get("interesting_examples", {})
+                if error_analysis
+                else {}
+            )|tojson }};
+
+        const groupSelect =
+            document.getElementById(
+                "exampleGroup"
+            );
+
+        const viewer =
+            document.getElementById(
+                "exampleViewer"
+            );
+
+        const noExamplesMessage =
+            document.getElementById(
+                "noExamplesMessage"
+            );
+
+        const exampleTitle =
+            document.getElementById(
+                "exampleTitle"
+            );
+
+        const exampleCounter =
+            document.getElementById(
+                "exampleCounter"
+            );
+
+        const navigationCounter =
+            document.getElementById(
+                "navigationCounter"
+            );
+
+        const trueCategory =
+            document.getElementById(
+                "trueCategory"
+            );
+
+        const logisticPrediction =
+            document.getElementById(
+                "logisticPrediction"
+            );
+
+        const svmPrediction =
+            document.getElementById(
+                "svmPrediction"
+            );
+
+        const clinicalbertPrediction =
+            document.getElementById(
+                "clinicalbertPrediction"
+            );
+
+        const clinicalText =
+            document.getElementById(
+                "clinicalText"
+            );
+
+        const sourceRecord =
+            document.getElementById(
+                "sourceRecord"
+            );
+
+        const previousButton =
+            document.getElementById(
+                "previousExample"
+            );
+
+        const nextButton =
+            document.getElementById(
+                "nextExample"
+            );
+
+        if (!groupSelect) {
+            return;
+        }
+
+        let currentGroup =
+            groupSelect.value;
+
+        let currentIndex = 0;
+
+        const groupTitles = {
+
+            all_three_incorrect:
+                "All Three Models Incorrect",
+
+            clinicalbert_only_correct:
+                "ClinicalBERT Only Correct",
+
+            logistic_only_correct:
+                "Logistic Regression Only Correct",
+
+            svm_only_correct:
+                "SVM Only Correct"
+
+        };
+
+        function getCurrentExamples() {
+
+            return (
+                exampleData[
+                    currentGroup
+                ]
+                ||
+                []
+            );
+
+        }
+
+        function setPredictionState(
+            element,
+            prediction,
+            truth
+        ) {
+
+            element.classList.remove(
+                "prediction-correct",
+                "prediction-incorrect"
+            );
+
+            if (prediction === truth) {
+
+                element.classList.add(
+                    "prediction-correct"
+                );
+
+            } else {
+
+                element.classList.add(
+                    "prediction-incorrect"
+                );
+
+            }
+
+        }
+
+        function renderExample() {
+
+            const examples =
+                getCurrentExamples();
+
+            if (
+                examples.length === 0
+            ) {
+
+                viewer.hidden = true;
+
+                noExamplesMessage.hidden =
+                    false;
+
+                return;
+
+            }
+
+            viewer.hidden = false;
+
+            noExamplesMessage.hidden =
+                true;
+
+            if (
+                currentIndex >=
+                examples.length
+            ) {
+
+                currentIndex = 0;
+
+            }
+
+            if (
+                currentIndex < 0
+            ) {
+
+                currentIndex =
+                    examples.length - 1;
+
+            }
+
+            const example =
+                examples[
+                    currentIndex
+                ];
+
+            exampleTitle.textContent =
+                groupTitles[
+                    currentGroup
+                ];
+
+            const positionText =
+                (currentIndex + 1)
+                +
+                " of "
+                +
+                examples.length;
+
+            exampleCounter.textContent =
+                positionText;
+
+            navigationCounter.textContent =
+                positionText;
+
+            trueCategory.textContent =
+                example.true_display_name;
+
+            logisticPrediction.textContent =
+                example.logistic_display_name;
+
+            svmPrediction.textContent =
+                example.svm_display_name;
+
+            clinicalbertPrediction.textContent =
+                example.clinicalbert_display_name;
+
+            clinicalText.textContent =
+                example.text;
+
+            sourceRecord.textContent =
+                "Source "
+                +
+                example.source_id;
+
+            setPredictionState(
+                logisticPrediction,
+                example.logistic_prediction,
+                example.true_label
+            );
+
+            setPredictionState(
+                svmPrediction,
+                example.svm_prediction,
+                example.true_label
+            );
+
+            setPredictionState(
+                clinicalbertPrediction,
+                example.clinicalbert_prediction,
+                example.true_label
+            );
+
+            previousButton.disabled =
+                examples.length <= 1;
+
+            nextButton.disabled =
+                examples.length <= 1;
+
+        }
+
+        groupSelect.addEventListener(
+            "change",
+            function () {
+
+                currentGroup =
+                    groupSelect.value;
+
+                currentIndex = 0;
+
+                renderExample();
+
+            }
+        );
+
+        previousButton.addEventListener(
+            "click",
+            function () {
+
+                const examples =
+                    getCurrentExamples();
+
+                if (
+                    examples.length === 0
+                ) {
+                    return;
+                }
+
+                currentIndex =
+                    (
+                        currentIndex
+                        - 1
+                        + examples.length
+                    )
+                    %
+                    examples.length;
+
+                renderExample();
+
+            }
+        );
+
+        nextButton.addEventListener(
+            "click",
+            function () {
+
+                const examples =
+                    getCurrentExamples();
+
+                if (
+                    examples.length === 0
+                ) {
+                    return;
+                }
+
+                currentIndex =
+                    (
+                        currentIndex
+                        + 1
+                    )
+                    %
+                    examples.length;
+
+                renderExample();
+
+            }
+        );
+
+        renderExample();
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

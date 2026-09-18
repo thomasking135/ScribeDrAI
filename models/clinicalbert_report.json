@@ -1,0 +1,45 @@
+{
+    "assessment": {
+        "precision": 0.926829268292683,
+        "recall": 0.8976377952755905,
+        "f1-score": 0.912,
+        "support": 127.0
+    },
+    "chief_complaint": {
+        "precision": 0.6785714285714286,
+        "recall": 0.76,
+        "f1-score": 0.7169811320754716,
+        "support": 25.0
+    },
+    "history_present_illness": {
+        "precision": 0.9620253164556962,
+        "recall": 0.95,
+        "f1-score": 0.9559748427672956,
+        "support": 80.0
+    },
+    "medications": {
+        "precision": 1.0,
+        "recall": 0.9866666666666667,
+        "f1-score": 0.9932885906040269,
+        "support": 75.0
+    },
+    "plan": {
+        "precision": 0.9230769230769231,
+        "recall": 0.967741935483871,
+        "f1-score": 0.9448818897637795,
+        "support": 62.0
+    },
+    "accuracy": 0.9295392953929539,
+    "macro avg": {
+        "precision": 0.8981005872793462,
+        "recall": 0.9124092794852257,
+        "f1-score": 0.9046252910421148,
+        "support": 369.0
+    },
+    "weighted avg": {
+        "precision": 0.9318818355953424,
+        "recall": 0.9295392953929539,
+        "f1-score": 0.930368122449666,
+        "support": 369.0
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "random_state": 42,
+    "test_size": 0.2,
+    "total_sections": 1950,
+    "training_sections": 1581,
+    "testing_sections": 369,
+    "total_source_records": 975,
+    "training_source_records": 780,
+    "testing_source_records": 195,
+    "source_overlap": 0,
+    "training_class_distribution": {
+        "assessment": 450,
+        "history_present_illness": 383,
+        "medications": 334,
+        "plan": 292,
+        "chief_complaint": 122
+    },
+    "testing_class_distribution": {
+        "assessment": 127,
+        "history_present_illness": 80,
+        "medications": 75,
+        "plan": 62,
+        "chief_complaint": 25
+    }
+}

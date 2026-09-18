@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ScribeDr AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <div class="brand">
+        <div class="logo">S+</div>
+
+        <div>
+            <h1>ScribeDr AI</h1>
+            <p>Clinical Text Classification Research Prototype</p>
+        </div>
+    </div>
+
+    <nav>
+        <a href="/">Classifier</a>
+        <a href="/evaluation">Model Evaluation</a>
+    </nav>
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <p class="eyebrow">CLINICAL NLP RESEARCH</p>
+
+        <h2>
+            Structure clinical text using
+            machine learning
+        </h2>
+
+        <p>
+            Enter a segment of clinical transcription.
+            ScribeDr AI will predict the most appropriate
+            clinical documentation category.
+        </p>
+
+    </section>
+
+
+    <section class="card">
+
+        <label for="clinicalText">
+            Clinical transcription
+        </label>
+
+        <textarea
+            id="clinicalText"
+            placeholder="Example: Patient reports a persistent cough for approximately three weeks..."
+        ></textarea>
+
+
+        <div class="controls">
+
+            <div>
+                <label for="modelSelect">
+                    Classification model
+                </label>
+
+                <select id="modelSelect">
+
+                    {% if "logistic" in available_models %}
+                    <option value="logistic">
+                        TF-IDF + Logistic Regression
+                    </option>
+                    {% endif %}
+
+                    {% if "svm" in available_models %}
+                    <option value="svm">
+                        TF-IDF + Support Vector Machine
+                    </option>
+                    {% endif %}
+
+                    {% if "clinicalbert" in available_models %}
+                    <option value="clinicalbert">
+                        ClinicalBERT
+                    </option>
+                    {% endif %}
+
+                    {% if not available_models %}
+                    <option value="">
+                        Models not trained yet
+                    </option>
+                    {% endif %}
+
+                </select>
+            </div>
+
+            <button id="classifyButton">
+                Classify Clinical Text
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section id="resultCard"
+         class="card result hidden">
+
+    <p class="eyebrow">
+        STRUCTURED CLINICAL DOCUMENTATION
+    </p>
+
+    <h2>
+        Classification Results
+    </h2>
+
+    <p id="modelUsed"></p>
+
+    <div id="structuredResults"></div>
+
+</section>
+
+
+    <section class="information">
+
+        <h3>Documentation categories</h3>
+
+        <div class="category-grid">
+
+            <div>
+                <h4>Chief Complaint</h4>
+                <p>
+                    The primary reason for the clinical encounter.
+                </p>
+            </div>
+
+            <div>
+                <h4>History of Present Illness</h4>
+                <p>
+                    Information describing the current condition.
+                </p>
+            </div>
+
+            <div>
+                <h4>Medications</h4>
+                <p>
+                    Medication-related documentation.
+                </p>
+            </div>
+
+            <div>
+                <h4>Assessment</h4>
+                <p>
+                    Clinical assessment documentation.
+                </p>
+            </div>
+
+            <div>
+                <h4>Plan</h4>
+                <p>
+                    Treatment, management and follow-up information.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="warning">
+        Research prototype only. This software does not provide
+        medical advice, diagnosis or treatment recommendations.
+        Classified output requires human review.
+    </section>
+
+</main>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,589 @@
+{
+    "dataset": {
+        "test_examples": 369,
+        "unique_source_records": 195,
+        "categories": 5,
+        "labels": [
+            "assessment",
+            "chief_complaint",
+            "history_present_illness",
+            "medications",
+            "plan"
+        ]
+    },
+    "models": {
+        "Logistic Regression": {
+            "correct_predictions": 322,
+            "error_count": 47,
+            "accuracy": 0.8726287262872628,
+            "hardest_category": {
+                "label": "chief_complaint",
+                "display_name": "Chief Complaint",
+                "recall": 0.48,
+                "f1": 0.6,
+                "support": 25
+            },
+            "largest_confusion": {
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "predicted_label": "plan",
+                "predicted_display_name": "Plan",
+                "count": 11,
+                "percentage_of_true_category": 8.661417322834646
+            },
+            "top_confusions": [
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "plan",
+                    "predicted_display_name": "Plan",
+                    "count": 11,
+                    "percentage_of_true_category": 8.661417322834646
+                },
+                {
+                    "true_label": "chief_complaint",
+                    "true_display_name": "Chief Complaint",
+                    "predicted_label": "assessment",
+                    "predicted_display_name": "Assessment",
+                    "count": 8,
+                    "percentage_of_true_category": 32.0
+                },
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "history_present_illness",
+                    "predicted_display_name": "History of Present Illness",
+                    "count": 5,
+                    "percentage_of_true_category": 3.937007874015748
+                },
+                {
+                    "true_label": "medications",
+                    "true_display_name": "Medications",
+                    "predicted_label": "assessment",
+                    "predicted_display_name": "Assessment",
+                    "count": 4,
+                    "percentage_of_true_category": 5.333333333333334
+                },
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "chief_complaint",
+                    "predicted_display_name": "Chief Complaint",
+                    "count": 3,
+                    "percentage_of_true_category": 2.3622047244094486
+                }
+            ],
+            "category_performance": {
+                "assessment": {
+                    "display_name": "Assessment",
+                    "precision": 0.8709677419354839,
+                    "recall": 0.8503937007874016,
+                    "f1": 0.8605577689243028,
+                    "support": 127
+                },
+                "chief_complaint": {
+                    "display_name": "Chief Complaint",
+                    "precision": 0.8,
+                    "recall": 0.48,
+                    "f1": 0.6,
+                    "support": 25
+                },
+                "history_present_illness": {
+                    "display_name": "History of Present Illness",
+                    "precision": 0.9069767441860465,
+                    "recall": 0.975,
+                    "f1": 0.9397590361445783,
+                    "support": 80
+                },
+                "medications": {
+                    "display_name": "Medications",
+                    "precision": 0.9577464788732394,
+                    "recall": 0.9066666666666666,
+                    "f1": 0.9315068493150684,
+                    "support": 75
+                },
+                "plan": {
+                    "display_name": "Plan",
+                    "precision": 0.7671232876712328,
+                    "recall": 0.9032258064516129,
+                    "f1": 0.8296296296296296,
+                    "support": 62
+                }
+            }
+        },
+        "SVM": {
+            "correct_predictions": 323,
+            "error_count": 46,
+            "accuracy": 0.8753387533875339,
+            "hardest_category": {
+                "label": "chief_complaint",
+                "display_name": "Chief Complaint",
+                "recall": 0.32,
+                "f1": 0.45714285714285713,
+                "support": 25
+            },
+            "largest_confusion": {
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "predicted_label": "plan",
+                "predicted_display_name": "Plan",
+                "count": 10,
+                "percentage_of_true_category": 7.874015748031496
+            },
+            "top_confusions": [
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "plan",
+                    "predicted_display_name": "Plan",
+                    "count": 10,
+                    "percentage_of_true_category": 7.874015748031496
+                },
+                {
+                    "true_label": "chief_complaint",
+                    "true_display_name": "Chief Complaint",
+                    "predicted_label": "assessment",
+                    "predicted_display_name": "Assessment",
+                    "count": 9,
+                    "percentage_of_true_category": 36.0
+                },
+                {
+                    "true_label": "chief_complaint",
+                    "true_display_name": "Chief Complaint",
+                    "predicted_label": "history_present_illness",
+                    "predicted_display_name": "History of Present Illness",
+                    "count": 7,
+                    "percentage_of_true_category": 28.000000000000004
+                },
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "history_present_illness",
+                    "predicted_display_name": "History of Present Illness",
+                    "count": 4,
+                    "percentage_of_true_category": 3.149606299212598
+                },
+                {
+                    "true_label": "medications",
+                    "true_display_name": "Medications",
+                    "predicted_label": "plan",
+                    "predicted_display_name": "Plan",
+                    "count": 3,
+                    "percentage_of_true_category": 4.0
+                }
+            ],
+            "category_performance": {
+                "assessment": {
+                    "display_name": "Assessment",
+                    "precision": 0.8740157480314961,
+                    "recall": 0.8740157480314961,
+                    "f1": 0.8740157480314961,
+                    "support": 127
+                },
+                "chief_complaint": {
+                    "display_name": "Chief Complaint",
+                    "precision": 0.8,
+                    "recall": 0.32,
+                    "f1": 0.45714285714285713,
+                    "support": 25
+                },
+                "history_present_illness": {
+                    "display_name": "History of Present Illness",
+                    "precision": 0.8666666666666667,
+                    "recall": 0.975,
+                    "f1": 0.9176470588235294,
+                    "support": 80
+                },
+                "medications": {
+                    "display_name": "Medications",
+                    "precision": 0.9722222222222222,
+                    "recall": 0.9333333333333333,
+                    "f1": 0.9523809523809523,
+                    "support": 75
+                },
+                "plan": {
+                    "display_name": "Plan",
+                    "precision": 0.8,
+                    "recall": 0.9032258064516129,
+                    "f1": 0.8484848484848485,
+                    "support": 62
+                }
+            }
+        },
+        "ClinicalBERT": {
+            "correct_predictions": 343,
+            "error_count": 26,
+            "accuracy": 0.9295392953929539,
+            "hardest_category": {
+                "label": "chief_complaint",
+                "display_name": "Chief Complaint",
+                "recall": 0.76,
+                "f1": 0.7169811320754716,
+                "support": 25
+            },
+            "largest_confusion": {
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "predicted_label": "chief_complaint",
+                "predicted_display_name": "Chief Complaint",
+                "count": 8,
+                "percentage_of_true_category": 6.299212598425196
+            },
+            "top_confusions": [
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "chief_complaint",
+                    "predicted_display_name": "Chief Complaint",
+                    "count": 8,
+                    "percentage_of_true_category": 6.299212598425196
+                },
+                {
+                    "true_label": "chief_complaint",
+                    "true_display_name": "Chief Complaint",
+                    "predicted_label": "assessment",
+                    "predicted_display_name": "Assessment",
+                    "count": 4,
+                    "percentage_of_true_category": 16.0
+                },
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "plan",
+                    "predicted_display_name": "Plan",
+                    "count": 3,
+                    "percentage_of_true_category": 2.3622047244094486
+                },
+                {
+                    "true_label": "history_present_illness",
+                    "true_display_name": "History of Present Illness",
+                    "predicted_label": "assessment",
+                    "predicted_display_name": "Assessment",
+                    "count": 3,
+                    "percentage_of_true_category": 3.75
+                },
+                {
+                    "true_label": "assessment",
+                    "true_display_name": "Assessment",
+                    "predicted_label": "history_present_illness",
+                    "predicted_display_name": "History of Present Illness",
+                    "count": 2,
+                    "percentage_of_true_category": 1.574803149606299
+                }
+            ],
+            "category_performance": {
+                "assessment": {
+                    "display_name": "Assessment",
+                    "precision": 0.926829268292683,
+                    "recall": 0.8976377952755905,
+                    "f1": 0.912,
+                    "support": 127
+                },
+                "chief_complaint": {
+                    "display_name": "Chief Complaint",
+                    "precision": 0.6785714285714286,
+                    "recall": 0.76,
+                    "f1": 0.7169811320754716,
+                    "support": 25
+                },
+                "history_present_illness": {
+                    "display_name": "History of Present Illness",
+                    "precision": 0.9620253164556962,
+                    "recall": 0.95,
+                    "f1": 0.9559748427672956,
+                    "support": 80
+                },
+                "medications": {
+                    "display_name": "Medications",
+                    "precision": 1.0,
+                    "recall": 0.9866666666666667,
+                    "f1": 0.9932885906040269,
+                    "support": 75
+                },
+                "plan": {
+                    "display_name": "Plan",
+                    "precision": 0.9230769230769231,
+                    "recall": 0.967741935483871,
+                    "f1": 0.9448818897637795,
+                    "support": 62
+                }
+            }
+        }
+    },
+    "agreement": {
+        "total_examples": 369,
+        "all_three_predictions_agree": 312,
+        "all_three_correct": 303,
+        "all_three_incorrect": 12,
+        "exactly_two_correct": 25,
+        "exactly_one_correct": 29,
+        "at_least_one_correct": 357,
+        "logistic_only_correct": 0,
+        "svm_only_correct": 1,
+        "clinicalbert_only_correct": 28,
+        "logistic_and_svm_only_correct": 13,
+        "logistic_and_clinicalbert_only_correct": 6,
+        "svm_and_clinicalbert_only_correct": 6
+    },
+    "interesting_examples": {
+        "all_three_incorrect": [
+            {
+                "source_id": "121",
+                "text": "A 2-week-old who at this point has otherwise been doing well. He has a relatively unremarkable foreskin. At this point in time, he otherwise seems to be doing reasonably well. The question is about the foreskin. He otherwise has no other significant issues. Severity low, ongoing since birth two weeks. Thank you for allowing me to see this patient in consultation.",
+                "true_label": "history_present_illness",
+                "true_display_name": "History of Present Illness",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "assessment",
+                "svm_display_name": "Assessment",
+                "clinicalbert_prediction": "assessment",
+                "clinicalbert_display_name": "Assessment"
+            },
+            {
+                "source_id": "1328",
+                "text": "Polycythemia rubra vera.",
+                "true_label": "chief_complaint",
+                "true_display_name": "Chief Complaint",
+                "logistic_prediction": "assessment",
+                "logistic_display_name": "Assessment",
+                "svm_prediction": "assessment",
+                "svm_display_name": "Assessment",
+                "clinicalbert_prediction": "assessment",
+                "clinicalbert_display_name": "Assessment"
+            },
+            {
+                "source_id": "1463",
+                "text": "Rule out obstructive sleep apnea syndrome.,Sample Patient is a pleasant, 61-year-old, obese, African-American male with a past medical history significant for hypertension, who presents to the Outpatient Clinic with complaints of loud snoring and witnessed apnea episodes by his wife for at least the past five years. He denies any gasping, choking, or coughing episodes while asleep at night. His bedtime is between 10 to 11 p.m., has no difficulty falling asleep, and is usually out of bed around 7 a.m. feeling refreshed. He has two to three episodes of nocturia per night. He denies any morning symptoms. He has mild excess daytime sleepiness manifested by dozing off during boring activities.",
+                "true_label": "chief_complaint",
+                "true_display_name": "Chief Complaint",
+                "logistic_prediction": "history_present_illness",
+                "logistic_display_name": "History of Present Illness",
+                "svm_prediction": "history_present_illness",
+                "svm_display_name": "History of Present Illness",
+                "clinicalbert_prediction": "history_present_illness",
+                "clinicalbert_display_name": "History of Present Illness"
+            },
+            {
+                "source_id": "1799",
+                "text": "Mr. T presented with significant muscle tremor, constant headaches, excessive nervousness, poor concentration, and poor ability to focus. His confidence and self-esteem are significantly low. He stated he has excessive somnolence, his energy level is extremely low, motivation is low, and he has a lack for personal interests. He has had suicidal ideation, but this is currently in remission. Furthermore, he continues to have hopeless thoughts and crying spells. Mr. T stated these symptoms appeared approximately two months ago.",
+                "true_label": "chief_complaint",
+                "true_display_name": "Chief Complaint",
+                "logistic_prediction": "history_present_illness",
+                "logistic_display_name": "History of Present Illness",
+                "svm_prediction": "history_present_illness",
+                "svm_display_name": "History of Present Illness",
+                "clinicalbert_prediction": "assessment",
+                "clinicalbert_display_name": "Assessment"
+            },
+            {
+                "source_id": "1907",
+                "text": "My impression is that baby boy, XYZ, has significant pulmonary hypertension. The best therapy for this is to continue oxygen. If clinically worsens, he may require nitric oxide. Certainly, Indocin should not be used at this time. He needs to have lower pulmonary artery pressures for that to be considered.,Thank you very much for allowing me to be involved in baby XYZ's care.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "plan",
+                "clinicalbert_display_name": "Plan"
+            },
+            {
+                "source_id": "2605",
+                "text": "Menorrhagia, pelvic pain, dysmenorrhea, and irregular periods.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "chief_complaint",
+                "logistic_display_name": "Chief Complaint",
+                "svm_prediction": "chief_complaint",
+                "svm_display_name": "Chief Complaint",
+                "clinicalbert_prediction": "chief_complaint",
+                "clinicalbert_display_name": "Chief Complaint"
+            },
+            {
+                "source_id": "3152",
+                "text": "Newly diagnosed mantle cell lymphoma, admitted now to start chemotherapy. She will start treatment with hyperfractionated cyclophosphamide, vincristine, doxorubicin, dexamethasone. Toxicities have already been discussed with her including myelosuppression, mucositis, diarrhea, nausea, alopecia, the low risk for cardiac toxicity, bladder toxicity, neuropathy, constipation, etc. Written materials were provided to her last week.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "chief_complaint",
+                "logistic_display_name": "Chief Complaint",
+                "svm_prediction": "chief_complaint",
+                "svm_display_name": "Chief Complaint",
+                "clinicalbert_prediction": "plan",
+                "clinicalbert_display_name": "Plan"
+            },
+            {
+                "source_id": "3174",
+                "text": "The patient is a 57-year-old female with invasive ductal carcinoma of the left breast, T1c, Nx, M0 left breast carcinoma.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "history_present_illness",
+                "logistic_display_name": "History of Present Illness",
+                "svm_prediction": "history_present_illness",
+                "svm_display_name": "History of Present Illness",
+                "clinicalbert_prediction": "history_present_illness",
+                "clinicalbert_display_name": "History of Present Illness"
+            },
+            {
+                "source_id": "3198",
+                "text": "I needed a blood transfusion.",
+                "true_label": "chief_complaint",
+                "true_display_name": "Chief Complaint",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "plan",
+                "clinicalbert_display_name": "Plan"
+            },
+            {
+                "source_id": "3404",
+                "text": "Levaquin 750 mg daily x14 days.,Followup is with Dr. XYZ of infectious diseases. I gave the patient the phone number to call on Monday for an appointment. Additional followup is also with Dr. XYZ, her primary care physician. Please note that 40 minutes was spent in the discharge.",
+                "true_label": "medications",
+                "true_display_name": "Medications",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "plan",
+                "clinicalbert_display_name": "Plan"
+            }
+        ],
+        "clinicalbert_only_correct": [
+            {
+                "source_id": "69",
+                "text": "Penile cellulitis status post circumcision.",
+                "true_label": "chief_complaint",
+                "true_display_name": "Chief Complaint",
+                "logistic_prediction": "assessment",
+                "logistic_display_name": "Assessment",
+                "svm_prediction": "assessment",
+                "svm_display_name": "Assessment",
+                "clinicalbert_prediction": "chief_complaint",
+                "clinicalbert_display_name": "Chief Complaint"
+            },
+            {
+                "source_id": "535",
+                "text": "1. Aspirin, Plavix, statins, beta blockers, ACE inhibitors as tolerated.,2. Hydration.,3. The patient will be observed over night for any hemodynamic instability or ischemia. If she remains stable, the right common femoral artery and vein sheaths will be removed and manual pressure will be applied for hemostasis.",
+                "true_label": "plan",
+                "true_display_name": "Plan",
+                "logistic_prediction": "assessment",
+                "logistic_display_name": "Assessment",
+                "svm_prediction": "assessment",
+                "svm_display_name": "Assessment",
+                "clinicalbert_prediction": "plan",
+                "clinicalbert_display_name": "Plan"
+            },
+            {
+                "source_id": "840",
+                "text": "The procedure was done under general anesthesia given by Dr. Marino Fernandez.",
+                "true_label": "medications",
+                "true_display_name": "Medications",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "medications",
+                "clinicalbert_display_name": "Medications"
+            },
+            {
+                "source_id": "1281",
+                "text": "Based on the results of the Weston aphasia battery, the patient's deficits most closely resemble global aphasia. On the spontaneous speech subtest, the patient responded \"no\" to all questions asked except for how are you today where she gave a thumbs-up. She provided no responses to picture description task and it is unclear if the patient was unable to follow the direction or if she was unable to see the picture clearly. The patient's sister-in-law did state that the patient wore glasses, but she currently does not have them and she did not know the extent the patient's visual deficit.,On the auditory verbal comprehension portion of the Western Aphasia Battery, the patient answered \"no\" to all \"yes/no\" questions. The auditory word recognition subtest, the patient had 5 out of 60 responses correct. With the sequential command, she had 10 out of 80 corrects. She was able to shut her eyes, point to the window, and point to the pen after directions. With repetition subtest, she repeated bed correctly, but no other stimuli. At this time, the patient became very emotional and repeatedly stated \"I can't\". During the naming subtest of the Western Aphasia Battery, the patient's responses contained numerous paraphasias and her speech was often unintelligible due to jargon. The word fluency test was not administered and the patient scored 2 out of 10 on the sentence completion task and 0 out of 10 on the responsive speech. In regards to speech automatics, the patient is able to count from 1 to 9 accurately; however, stated 7 instead of 10 at the end of the task. She is not able to state the days of the week or months in the year or her name at this time. She cannot identify the day on calendar and was unable to verbally state the date or month.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "assessment",
+                "clinicalbert_display_name": "Assessment"
+            },
+            {
+                "source_id": "1281",
+                "text": "The patient's communication deficits most closely resemble global aphasia where she has difficulty with both receptive as well as expressive communication. She does perseverate and is very emotional due to probable frustration. Outpatient skilled speech therapy is recommended to improve the patient's functional communication skills.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "assessment",
+                "clinicalbert_display_name": "Assessment"
+            },
+            {
+                "source_id": "1398",
+                "text": "Omnicef 300 mg daily for 10 days. May use some Zyrtec for the itching. Samples are given.",
+                "true_label": "plan",
+                "true_display_name": "Plan",
+                "logistic_prediction": "medications",
+                "logistic_display_name": "Medications",
+                "svm_prediction": "medications",
+                "svm_display_name": "Medications",
+                "clinicalbert_prediction": "plan",
+                "clinicalbert_display_name": "Plan"
+            },
+            {
+                "source_id": "1482",
+                "text": "She is 12-year-old with discoid lupus on the control with optimal regimen. We are going to switch her to Protopic at night, especially in the face. Continue on Plaquenil, get some laboratories and wait for the results. Diet evaluation today because of the gaining weight and acanthosis nigricans, and will see her back in about 3 months for follow-up. Future plans will be depending on whether or not she evolves into a full-blown lupus. I discussed the plan with her mother and they had no further questions.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "assessment",
+                "clinicalbert_display_name": "Assessment"
+            },
+            {
+                "source_id": "1484",
+                "text": "This is a patient, who today presents with symptoms consistent with possible oligoarticular arthritis of her knees with also arthralgias and deficiency in vitamin D. She also has chronic proteinuria and seizure disorder. My recommendation is to start her on vitamin D and calcium supplements, and also increase the Mobic to 50 mg, which is one of the few things she can tolerate with all the medication she is taking. We are going to refer her to physical therapy and see her back in 2 months for followup. The plan was discussed with A and her parents and they have no further questions.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "plan",
+                "svm_display_name": "Plan",
+                "clinicalbert_prediction": "assessment",
+                "clinicalbert_display_name": "Assessment"
+            },
+            {
+                "source_id": "1793",
+                "text": "\"I felt anxious yesterday.\"",
+                "true_label": "chief_complaint",
+                "true_display_name": "Chief Complaint",
+                "logistic_prediction": "assessment",
+                "logistic_display_name": "Assessment",
+                "svm_prediction": "history_present_illness",
+                "svm_display_name": "History of Present Illness",
+                "clinicalbert_prediction": "chief_complaint",
+                "clinicalbert_display_name": "Chief Complaint"
+            },
+            {
+                "source_id": "1904",
+                "text": "This 3-year-old female presents today for evaluation of chronic ear infections bilateral.",
+                "true_label": "chief_complaint",
+                "true_display_name": "Chief Complaint",
+                "logistic_prediction": "history_present_illness",
+                "logistic_display_name": "History of Present Illness",
+                "svm_prediction": "history_present_illness",
+                "svm_display_name": "History of Present Illness",
+                "clinicalbert_prediction": "chief_complaint",
+                "clinicalbert_display_name": "Chief Complaint"
+            }
+        ],
+        "logistic_only_correct": [],
+        "svm_only_correct": [
+            {
+                "source_id": "4453",
+                "text": "Patient's diet history reflects that she is highly restricting carbohydrates in her food intake. She does not have blood sugar records with her for me to review, but we discussed strategies for improving blood sugar control in the morning. This primarily included a recommendation of including some solid protein with her bedtime snack which could be done in the form of nuts. She is doing some physical activity two to three times a week. This includes aerobic walking with weights on her arms and her ankles. She is likely going to need to increase frequency in this area to help support weight reduction. Her basal metabolic rate was estimated at 1415 calories a day. Her total calorie requirements for weight maintenance are estimated at 1881 calories a day. A 1200-calorie meal plan should support a weight loss of at least one pound a week.",
+                "true_label": "assessment",
+                "true_display_name": "Assessment",
+                "logistic_prediction": "plan",
+                "logistic_display_name": "Plan",
+                "svm_prediction": "assessment",
+                "svm_display_name": "Assessment",
+                "clinicalbert_prediction": "plan",
+                "clinicalbert_display_name": "Plan"
+            }
+        ]
+    }
+}
